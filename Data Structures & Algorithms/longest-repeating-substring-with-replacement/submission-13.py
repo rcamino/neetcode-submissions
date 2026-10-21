@@ -1,0 +1,26 @@
+class Solution:
+
+    def characterReplacement(self, s: str, k: int) -> int:
+        best = 1
+        c = s[0]
+        counter = {c: 1}
+        start = 0
+        bad = 0
+        length = 1
+        for end in range(1, len(s)):
+            c = s[end]
+            if c in counter:
+                counter[c] += 1
+            else:
+                counter[c] = 1
+            good = max(counter.values())
+            length = end - start + 1
+            bad = length - good
+            if bad > k:
+                best = max(best, length - 1)
+                c_start = s[start]
+                counter[c_start] -= 1
+                start += 1
+        if bad <= k:
+            best = max(best, length)
+        return best
